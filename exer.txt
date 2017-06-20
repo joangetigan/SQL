@@ -1,0 +1,72 @@
+Movies
+-------
+title
+year
+length
+genre
+studioName
+producerCertificateNumber
+
+
+StarsIn
+-------
+movieTitle
+movieYear
+starName
+
+
+MovieStar
+--------
+name
+address
+gender
+
+
+MovieExec
+---------
+name
+address
+certificateNumber
+netWorth
+
+
+Studio
+--------
+name
+address
+presidentName
+
+
+
+
+
+
+SELECT name
+FROM MovieExec JOIN Movies ON (MovieExec.certificateNumber=Movies.producerCertificateNumber)
+where Movies.title IN (
+SELECT movieTitle 
+FROM StarsIn 
+where starName = 'Harrison Ford';
+);
+
+
+
+
+
+select address from Studio where name='MGM Studios';
+select starName from StarsIn where movieYear='1980' or movieTitle LIKE '%Love%';
+select name from MovieExec where netWorth>=10000000;
+select name from MovieStar where gender='male' or address like '%Malibu%';
+select starName
+from StarsIn join MovieStar on(StarsIn.starName=MovieStar.name)
+where gender='male' and movieTitle='Titanic';
+select starName
+from StarsIn join Movies on (StarsIn.movieYear = Movies.year)
+where studioName='MGM' and year='1995';
+
+select name
+from MovieExec JOIN Movies ON(MovieExec.certificateNumber=Movies.producerCertificateNumber)
+where title = 'Starwars';
+
+
+

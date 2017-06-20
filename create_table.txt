@@ -1,0 +1,149 @@
+create table artists (
+id int not null auto_increment,
+name varchar(255) not null unique,
+primary key(id)
+);
+
+create table users (
+id int not null auto_increment,
+username varchar(255) not null,
+password varchar(255) not null,
+primary key(id)
+);
+
+
+create table albums (
+id int not null auto_increment,
+name varchar(255) not null,
+year year(4) not null,
+artist_id int not null,
+primary key(id),
+foreign key(artist_id)
+ references artists(id)
+);
+
+create table songs (
+id int not null auto_increment,
+title varchar(255) not null,
+length int not null,
+genre varchar(255) not null,
+album_id int,
+primary key(id),
+foreign key(album_id)
+ references albums(id)
+ on update cascade
+ on delete set null
+);
+
+create table playlists (
+id int not null auto_increment,
+date_created timestamp default current_timestamp,
+user_id int,
+primary key(id),
+foreign key(user_id)
+ references users(id)
+ on update cascade
+ on delete set null
+);
+
+
+create table songs_playlists (
+id int not null auto_increment,
+song_id int,
+playlist_id int,
+primary key(id),
+foreign key(song_id)
+ references songs(id)
+ on update cascade
+ on delete set null,
+foreign key(playlist_id)
+ references playlists(id)
+ on update cascade
+ on delete set null
+);
+
+
+TO DELETE
+drop table <table name>
+_____________________________________________________________
+
+CRUD
+insert into table(column1, column2, column3, ...)
+values('val1', 'val2', 'val3', ...)
+
+insert into songs(title,length,genre,album_id)
+values('Gangnam Style','253','kpop','1'), ('Kundiman','234','opm','2'),
+('Kisapmata','279','opm','2');
+	
+
+TO SHOW 
+select *(all) from <table name>;
+select title,genre from <table name>;
+select title from <table name> where <condition>(e.g. genre='opm'); can use and/or
+select title,length from songs where genre='opm' and length>240;
+
+
+UPDATE table
+SET column1=newval1, column2=newval2
+WHERE column3=val3
+
+UPDATE songs
+SET length=240
+WHERE title='Kundiman';
+
+
+DELETE FROM table WHERE column=val
+DELETE FROM songs WHERE genre='opm' and length>240;
+
+______________________________________________________________
+
+SELECT <columns>
+FROM table1 JOIN table2 ON (join_condition)
+WHERE <condition>
+
+SELECT name,title
+FROM albums JOIN songs ON (albums.id=songs.album_id);
+WHERE <condition>
+
+OUTER JOINS
+LEFT JOIN  -right null values to non-matches, preserve left
+RIGHT JOIN  -left null values to non-matches, preserve right
+
+LIKE	--case-insensitive :)
+SELECT * FROM songs WHERE title LIKE 'K%';	--beginning letter
+SELECT * FROM songs WHERE title LIKE '%a';	--ending letter
+SELECT * FROM songs WHERE title LIKE '%a%';	--contains
+SELECT * FROM songs WHERE title LIKE '_________';
+_ underscore for characters(no spaces)
+
+ORDER BY (sort)
+SELECT * FROM albums ORDER BY name;
+SELECT * FROM albums ORDER BY YEAR; (ascending default)
+SELECT * FROM albums ORDER BY YEAR DESC;
+
+
+IN, ANY, ALL
+SELECT * FROM songs WHERE album_id IN (2,3,4);	--OR shortcut
+
+SELECT * FROM songs WHERE length > ANY (100,150,200);
+equivalent to WHERE (length>100) OR (length>150) OR (length>200);
+
+SELECT * FROM songs WHERE length > ALL (100,150,200);
+equivalent to WHERE (length>100) AND (length>150) AND (length>200);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
