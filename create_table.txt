@@ -1,3 +1,13 @@
+cd/  --pabalik
+cd xampp  --pagenter
+cd mysql/bin
+mysql.exe -u root
+create database <name>;
+use <name>;
+show databases;
+show tables;
+describe <table name>;
+
 create table artists (
 id int not null auto_increment,
 name varchar(255) not null unique,
@@ -75,6 +85,13 @@ insert into songs(title,length,genre,album_id)
 values('Gangnam Style','253','kpop','1'), ('Kundiman','234','opm','2'),
 ('Kisapmata','279','opm','2');
 	
+INSERT INTO offices(officeCode,city,phone,addressLine1,state,country,postalCode,territory)
+VALUES('9','Singapore','456-6789','Singapore','Singapore','Singapore','1234','Asia');
+
+INSERT INTO customers 
+(customerNumber,customerName,contactLastName,contactFirstName,phone,addressLine1,state,postalCode,country,salesRepEmployeeNumber,creditLimit)
+VALUES('497','Joan Getigan','Getigan','Roger','123-4567','Rizal','Rizal','1102','Philippines','1337','25000');
+
 
 TO SHOW 
 select *(all) from <table name>;

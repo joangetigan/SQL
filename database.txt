@@ -1,0 +1,55 @@
+database musketeers
+
+create table users (
+id int not null auto_increment,
+username varchar(255) not null unique,
+password varchar(255) not null,
+role varchar(255) not null,
+primary key(id)
+);
+ALTER TABLE users MODIFY role VARCHAR(255) NOT NULL DEFAULT '{regular}';
+ALTER TABLE users
+ALTER status SET DEFAULT 'pending' AFTER ebook;
+
+create table books (
+id int not null auto_increment,
+author varchar(255) not null,
+title varchar(255) not null,
+description varchar(255) not null,
+primary key(id)
+);
+
+create table users_books (
+id int not null auto_increment,
+user_id int,
+book_id int,
+primary key(id),
+foreign key(user_id)
+ references users(id)
+ on update cascade
+ on delete set null,
+foreign key(book_id)
+ references books(id)
+ on update cascade
+ on delete set null
+);
+
+create table saved_books (
+id int not null auto_increment,
+user_id int,
+book_id int,
+primary key(id),
+foreign key(user_id)
+ references users(id)
+ on update cascade
+ on delete set null,
+foreign key(book_id)
+ references books(id)
+ on update cascade
+ on delete set null
+);
+
+
+
+
+

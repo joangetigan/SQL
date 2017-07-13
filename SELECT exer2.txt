@@ -1,0 +1,148 @@
+(how many products per productline)
+SELECT productLine,COUNT(productName) FROM products GROUP BY productLine; 
+
+
+(employees with number of customers)
+SELECT firstName,lastname,COUNT(c.salesRepEmployeeNumber) 
+FROM employees e
+LEFT JOIN customers c ON (e.employeeNumber=c.salesRepEmployeeNumber)
+GROUP BY e.employeeNumber;
+
+
+
+(customer with most items ordered)
+SELECT customerName,SUM(quantityOrdered) FROM customers c
+JOIN orders o ON (c.customerNumber=o.customerNumber)
+JOIN orderdetails od ON (o.orderNumber=od.orderNumber)
+GROUP BY customerName ORDER BY SUM(quantityOrdered) DESC LIMIT 1;
+
+SELECT customerName,SUM(quantityOrdered) FROM customers c
+JOIN orders o ON (c.customerNumber=o.customerNumber)
+JOIN orderdetails od ON (o.orderNumber=od.orderNumber)
+GROUP BY customerName
+HAVING SUM(quantityOrdered)=(SELECT MAX(s) FROM (SELECT SUM(quantityOrdered) s 
+FROM customers c
+JOIN orders o ON (c.customerNumber=o.customerNumber)
+JOIN orderdetails od ON (o.orderNumber=od.orderNumber)
+GROUP BY customerName) x);
+
+
+
+(customer who paid the most)
+SELECT customerName,format(SUM(amount),2) FROM customers c
+JOIN payments p ON (c.customerNumber=p.customerNumber)
+GROUP BY customerName ORDER BY SUM(amount) DESC LIMIT 1;
+
+
+(employees with no customers)
+SELECT firstName,lastname,c.salesRepEmployeeNumber FROM employees e
+LEFT JOIN customers c ON (e.employeeNumber=c.salesRepEmployeeNumber)
+WHERE c.salesRepEmployeeNumber IS NULL;
+
+
+
+(customer with highest number of orders)
+SELECT customerName,COUNT(*) FROM customers c
+JOIN orders o ON (c.customerNumber=o.customerNumber)
+GROUP BY o.customerNumber
+HAVING COUNT(*)=(SELECT MAX(cnt) FROM (SELECT COUNT(*) cnt FROM orders GROUP BY customerNumber) x);
+
+SELECT customerName,COUNT(*) FROM customers c
+JOIN orders o ON (c.customerNumber=o.customerNumber)
+GROUP BY o.customerNumber ORDER BY COUNT(*) DESC LIMIT 1;
+
+
+SELECT COUNT(country) FROM customers 
+WHERE country='UK';
+
+
+SELECT productName,MAX(MSRP) as 'Most Expensive'
+FROM products
+WHERE MSRP=(SELECT MAX(MSRP) FROM products); 
+
+
+SELECT customerName,country FROM customers 
+WHERE country IN ('USA','France','Canada','UK','Italy');
+
+
+SELECT DISTINCT status FROM orders;
+
+SELECT DISTINCT country FROM customers ORDER BY country;
+SELECT customerName,country FROM customers GROUP BY country;
+
+SELECT productLine,textDescription FROM productlines
+WHERE textDescription LIKE '%state of the art%';   
+
+SELECT customerName FROM customers
+WHERE customerName NOT LIKE '%A%';   
+
+
+e1(manager)	e2(reporting-employee)
+SELECT e1.firstName,e1.lastName 
+FROM employees e1 JOIN employees e2
+ON e2.reportsTo=e1.employeeNumber
+WHERE e2.firstname='Anthony' AND e2.lastName='Bow';
+
+SELECT e1.firstName,e1.lastName,e1.reportsTo 
+FROM employees e1 JOIN employees e2
+ON e1.reportsTo=e2.employeeNumber
+WHERE e2.firstname='Anthony' AND e2.lastName='Bow';
+(SELF JOIN needs ALIASES)
+
+
+SELECT firstName,lastName,o.country,customerName,c.country FROM customers c
+JOIN employees e ON (c.salesRepEmployeeNumber=e.employeeNumber)
+JOIN offices o ON (e.officeCode=o.officeCode)
+WHERE c.country=o.country GROUP BY firstName,lastName ORDER BY lastName;
+
+SELECT customerName,productName FROM products p
+JOIN orderdetails od ON (p.productCode=od.productCode)
+JOIN orders o ON (od.orderNumber=o.orderNumber)
+JOIN customers c ON (o.customerNumber=c.customerNumber)
+WHERE customerName='Baane Mini Imports';
+
+SELECT customerName FROM customers c
+JOIN employees e ON (c.salesRepEmployeeNumber = e.employeeNumber)
+WHERE firstName='Leslie' AND lastName='Thompson'; 
+
+SELECT firstName,lastName FROM employees e
+JOIN offices o ON (e.officeCode = o.officeCode)
+WHERE city='Tokyo'; 
+
+SELECT productName,SUM(quantityOrdered*priceEach) subtotal FROM products p
+JOIN orderdetails o ON (p.productCode = o.productCode) GROUP BY productName; 
+
+SELECT productName,(MSRP-buyPrice) as profit FROM products;
+as(used for renaming) or just putting the tempName right after
+
+
+SELECT productName,productLine,quantityInStock FROM products
+WHERE productLine='planes' OR quantityInStock<1000;
+
+SELECT customerName,country,creditLimit FROM customers
+WHERE country!='USA' AND creditLimit>3000; 
+
+SELECT email FROM employees 
+WHERE firstName='Steve' AND lastName='Patterson';
+
+
+SELECT customerName,state 
+FROM customers WHERE state IS NULL;
+
+SELECT lastName,firstName 
+FROM employees WHERE email='jfirrelli@classicmodelcars.com';
+
+SELECT MSRP FROM products WHERE productName='The Titanic';
+
+SELECT contactFirstName,contactLastName FROM customers 
+WHERE customerName='La Rochelle Gifts';
+
+SELECT * FROM customers WHERE country='Philippines'
+
+
+
+
+
+
+
+

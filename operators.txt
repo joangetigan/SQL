@@ -1,0 +1,25 @@
+Aggregation Operators
+
+COUNT(<col>)
+count values from col
+COUNT(*)
+count rows
+
+SELECT COUNT ...;
+
+SUM()
+MIN()
+MAX()
+AVG()
+
+
+GROUP BY keyword
+SELECT AVG(length),genre FROM songs GROUP BY genre;
+
+
+HAVING (similar to WHERE)
+SELECT AVG(length),genre FROM songs GROUP BY genre
+HAVING AVG(length)>300;
+
+
+
